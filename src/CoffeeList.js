@@ -1,70 +1,57 @@
-import React from 'react';
-import Table from 'react-bootstrap/Table'
+import React, { useState, useEffect } from 'react';
+import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 
-class CoffeeList extends React.Component {
+const CoffeeList = () => {
+    const [products, setProducts] = useState([]);
 
-    readData() {
-        const self = this;
-        axios.get(window.global.api_location + '/products').then(function (response) {
-            console.log(response.data);
+    useEffect(() => {
+        readData();
+    }, []);
 
-            self.setState({ products: response.data });
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
+    const readData = () => {
+        axios
+            .get(window.global.api_location + '/products')
+            .then(function (response) {
+                console.log(response.data);
+                setProducts(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
 
-    getProducts() {
-        let table = []
+    const getProducts = () => {
+        let table = [];
 
-        for (let i = 0; i < this.state.products.length; i++) {
-
+        for (let i = 0; i < products.length; i++) {
             table.push(
                 <tr key={i}>
-                    <td>{this.state.products[i].name}</td>
-                    <td>{this.state.products[i].price}</td>
-                    <td>{this.state.products[i].sku}</td>
+                    <td>{products[i].name}</td>
+                    <td>{products[i].price}</td>
+                    <td>{products[i].sku}</td>
                 </tr>
             );
         }
 
-        return table
-    }
+        return table;
+    };
 
-    constructor(props) {
-        super(props);
-        this.readData();
-        this.state = { products: [] };
-
-        this.readData = this.readData.bind(this);
-    }
-
-    render() {
-        return (
-            <div>
-                <h1 style={{ marginBottom: "40px" }}>Menu</h1>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                                SKU
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.getProducts()}
-                    </tbody>
-                </Table>
-            </div>
-        )
-    }
-}
+    return (
+        <div>
+            <h1 style={{ marginBottom: '40px' }}>Menu</h1>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>SKU</th>
+                    </tr>
+                </thead>
+                <tbody>{getProducts()}</tbody>
+            </Table>
+        </div>
+    );
+};
 
 export default CoffeeList;

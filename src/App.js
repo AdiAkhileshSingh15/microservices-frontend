@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
 } from "react-router-dom";
 
@@ -38,17 +38,11 @@ function App() {
             </Form>
           </Navbar.Collapse>
         </Navbar>
-        <Switch>
-          <Route path="/admin">
-            <Admin />
-          </Route>
-          <Route path="/">
-            <CoffeeList />
-          </Route>
-          <Route>
-            <CoffeeList />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/" element={<CoffeeList />} />
+          <Route index element={<CoffeeList />} />
+        </Routes>
       </Router>
     </div>
   );
