@@ -42,7 +42,6 @@ const Admin = () => {
                 var toastText = '';
                 if (res.status === 200) {
                     toastText = 'Uploaded file';
-                    navigate('/');
                 } else {
                     toastText = 'Unable to upload file. Error:' + res.statusText;
                 }
@@ -50,6 +49,9 @@ const Admin = () => {
                 setButtonDisabled(false);
                 setToastShow(true);
                 setToastText(toastText);
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
             })
             .catch((error) => {
                 console.log('Err' + error);
